@@ -2,8 +2,11 @@ services:
   - type: web
     name: cloth-store-backend
     runtime: python
+    plan: free 
+    region: singapore  # Choose closest to you (singapore/mumbai)
     buildCommand: pip install -r requirements.txt
     startCommand: gunicorn core.wsgi --bind 0.0.0.0:$PORT
+    healthCheckPath: /api/products/products/
     envVars:
       - key: DJANGO_SETTINGS_MODULE
         value: core.settings_prod
@@ -27,8 +30,14 @@ services:
         sync: false
       - key: EMAIL_HOST_PASSWORD
         sync: false
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false
 
 databases:
   - name: cloth-store-db
+    plan: free 
     databaseName: clothstore
     user: clothstore_user
+    region: singapore
